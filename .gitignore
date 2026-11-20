@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# supabase cli link state
+supabase/.temp
+
+# agent-pace local log
+.pace/log.jsonl

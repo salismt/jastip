@@ -1,0 +1,34 @@
+# pace.toml: owner-only. Agents cannot edit this file or existing checks in claims/checks/.
+# Delete this file and pace goes inert in this project.
+
+[pace]
+mode = "enforce"   # observe: log what would block to .pace/log.jsonl. enforce: block.
+word_cap = 150     # max words in the agent's final reply. 0 turns the cap off.
+
+# The check for claim <id> is claims/checks/<id>.sh or <id>.py, run from the project root.
+# Exit 0 = holds, non-zero = continuity break. No file yet = "uncompiled".
+# RFC.md "Promises" says what each check must test.
+
+[[claim]]
+id = "C1"
+said = "An order is Paid only after a verified Midtrans notification and a server-side status check."
+to = "buyers"
+since = "2026-11-20"
+
+[[claim]]
+id = "C2"
+said = "One payment fills one slot. The same notification twice never counts twice."
+to = "buyers"
+since = "2026-11-20"
+
+[[claim]]
+id = "C3"
+said = "The Midtrans server key never reaches the browser."
+to = "Midtrans"
+since = "2026-11-20"
+
+[[claim]]
+id = "C4"
+said = "This app never takes real money."
+to = "the IDSW audience"
+since = "2026-11-20"
