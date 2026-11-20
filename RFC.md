@@ -107,7 +107,7 @@ Slots taken for an item = `sum(qty)` of its `paid` orders. Slots held = `sum(qty
 | `MIDTRANS_IS_PRODUCTION` | Vercel env | `false` |
 | `POSTGRES_URL` | Vercel env, written by the Supabase integration | pooled connection to the `jastip` Supabase project |
 
-For local runs and the journeys, `vercel env pull .env.local` copies these into the repo folder (git-ignored).
+Vercel stores the integration values encrypted, so `vercel env pull` returns them empty. For local runs, `.env.local` (git-ignored) holds `POSTGRES_URL` with the database password, filled in by the owner. The Midtrans keys go into Vercel only.
 
 ## Infrastructure (set up before the recording, not on video)
 
