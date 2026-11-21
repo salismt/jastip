@@ -23,12 +23,24 @@ since = "2026-11-20"
 
 [[claim]]
 id = "C3"
-said = "The Midtrans server key never reaches the browser."
-to = "Midtrans"
+said = "App credential such as server key never reaches the browser"
+to = "developers"
 since = "2026-11-20"
 
 [[claim]]
 id = "C4"
-said = "This app never takes real money."
-to = "the IDSW audience"
+said = "This app should never log sensitive information such as credit card info or phone number"
+to = "developers"
+since = "2026-11-20"
+
+[[claim]]
+id = "C5"
+said = "Use /integrate-midtrans-payments skills to integrate with Midtrans for payments"
+to = "developers"
+since = "2026-11-20"
+
+[[claim]]
+id = "C6"
+said = "Use /prd-to-prototype skills before starting each PRD to validate what we built is correct"
+to = "developers"
 since = "2026-11-20"
