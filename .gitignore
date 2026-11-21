@@ -45,3 +45,8 @@ supabase/.temp
 
 # agent-pace local log
 .pace/log.jsonl
+
+# prototype build + test output
+/.next-prototype/
+/test-results/
+/playwright-report/

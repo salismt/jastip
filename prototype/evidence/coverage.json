@@ -1,0 +1,33 @@
+{
+  "prd_id": "PRD-JT-01",
+  "prototype_version": "4ef218c",
+  "run_started_at": "2026-11-21T00:23:37.643Z",
+  "runner": {
+    "name": "playwright",
+    "version": "1.56.1"
+  },
+  "acceptance_total": 8,
+  "passed_ids": [
+    "AC-01",
+    "AC-02",
+    "AC-03",
+    "AC-04",
+    "AC-05",
+    "AC-06",
+    "AC-07",
+    "AC-08"
+  ],
+  "missing_ids": [],
+  "duplicate_ids": [],
+  "unknown_ids": [],
+  "screen_total": 3,
+  "visited_screens": [
+    "S1",
+    "S2",
+    "S3"
+  ],
+  "unvisited_screens": [],
+  "failures": [],
+  "review_status": "pending",
+  "coverage_passed": true
+}

@@ -1,11 +1,11 @@
-# RFC-JT-01: Jastip Tokyo on Midtrans Snap (sandbox)
+# RFC-JT-01: Jastip Tokyo on Midtrans Snap
 
 Status: Draft. Owner: Salis. Date: 2026-11-17.
 Implements: `PRD.md` (PRD-JT-01). Read the PRD first.
 
 ## Summary
 
-A small Next.js app at `jastip.salis.id`. Buyers order an item from one jastip trip and pay with QRIS through Midtrans Snap in sandbox mode. An order becomes Paid only after a verified Midtrans notification and a server-side status check. The app runs on Vercel (repo `salismt/jastip`, functions in `sin1`) with Postgres in its own Supabase project in Singapore.
+A small Next.js app at `jastip.salis.id`. Buyers order an item from one jastip trip and pay with QRIS through Midtrans Snap in production mode. An order becomes Paid only after a verified Midtrans notification and a server-side status check. The app runs on Vercel (repo `salismt/jastip`, functions in `sin1`) with Postgres in its own Supabase project in Singapore.
 
 ## Goals
 
@@ -14,17 +14,6 @@ A small Next.js app at `jastip.salis.id`. Buyers order an item from one jastip t
 3. Build it in about 25 minutes of agent time, so it fits the demo recording.
 
 Not goals: production payments, admin UI, login, scale.
-
-## Promises (pace claims)
-
-The repo uses agent-pace with `mode = "enforce"` from the first commit. Each claim has a check in `claims/checks/`.
-
-| ID | Promise | To | Check |
-|---|---|---|---|
-| C1 | An order is Paid only after a verified Midtrans notification and a server-side status check. | Buyers | Test: AC-05 and AC-08 pass. Grep: only `lib/orders/settle.ts` writes the `paid` state |
-| C2 | One payment fills one slot. The same notification twice never counts twice. | Buyers | Test: AC-06 passes |
-| C3 | The Midtrans server key never reaches the browser. | Midtrans | Grep: no `NEXT_PUBLIC_*SERVER_KEY`. `MIDTRANS_SERVER_KEY` is read only in files that import `server-only` |
-| C4 | This app never takes real money. | Audience | Grep: every Midtrans base URL in the code contains `sandbox`, and `lib/midtrans.ts` throws unless `MIDTRANS_IS_PRODUCTION` is `false` |
 
 ## Stack
 
@@ -85,27 +74,15 @@ create table payment_events (               -- the evidence shown on S3
 
 Slots taken for an item = `sum(qty)` of its `paid` orders. Slots held = `sum(qty)` of `pending` orders younger than 15 minutes. A new order is allowed when taken + held + qty ≤ quota.
 
-### Payment flow
-
-1. `POST /api/orders` checks the input with zod and the free slots. It inserts the order as `creating_payment`, then calls Snap `POST https://app.sandbox.midtrans.com/snap/v1/transactions` with Basic Auth (server key, empty password). The body has `transaction_details.order_id`, `gross_amount` as an integer, `enabled_payments: ["other_qris"]` and an expiry of 15 minutes. It saves the token and sets `pending`. If Snap fails, it sets `failed` and returns the provider message.
-2. The browser loads `https://app.sandbox.midtrans.com/snap/snap.js` with the client key and calls `snap.pay(token)`. Every callback (`onSuccess`, `onPending`, `onError`, `onClose`) only navigates to `/pesanan/[id]`. No callback changes state.
-3. `POST /api/midtrans/notification`:
-   1. Verify `signature_key = SHA512(order_id + status_code + gross_amount + serverKey)`. Use the raw `gross_amount` string from the payload. If it does not match, store an event with `signature_ok = false` and return 401.
-   2. Call `GET https://api.sandbox.midtrans.com/v2/{order_id}/status`. Store it as a `status_check` event.
-   3. Call `settle(orderId, statusFromCheck)`. It maps `settlement` → `paid`; `capture` with `fraud_status = accept` → `paid`; `expire` → `expired`; `cancel`, `deny`, `failure` → `failed`; `pending` → no change.
-   4. `settle` is monotonic. `paid` never changes again. It runs in one transaction with `select ... for update` on the order row, so two notifications at the same time count once.
-   5. Return 200.
-4. S3 polls `GET /api/orders/[id]` every 2 seconds while the state is `pending`, and shows the evidence lines when Paid:
-   `Notifikasi diterima 14:03:11 · tanda tangan valid · cek status: settlement`.
 
 ### Configuration
 
 | Name | Where | Value |
 |---|---|---|
-| `MIDTRANS_SERVER_KEY` | Vercel env, sensitive | sandbox server key |
-| `NEXT_PUBLIC_MIDTRANS_CLIENT_KEY` | Vercel env | sandbox client key |
-| `MIDTRANS_IS_PRODUCTION` | Vercel env | `false` |
-| `POSTGRES_URL` | Vercel env, written by the Supabase integration | pooled connection to the `jastip` Supabase project |
+| `MIDTRANS_SERVER_KEY` | Vercel env, sensitive | production server key |
+| `NEXT_PUBLIC_MIDTRANS_CLIENT_KEY` | Vercel env | production client key |
+| `MIDTRANS_IS_PRODUCTION` | Vercel env | `true` |
+| `POSTGRES_URL` | Vercel env, written by the Supabase integration | pooled connection to the `jastip` Supabase project 
 
 Vercel stores the integration values encrypted, so `vercel env pull` returns them empty. For local runs, `.env.local` (git-ignored) holds `POSTGRES_URL` with the database password, filled in by the owner. The Midtrans keys go into Vercel only.
 
@@ -118,8 +95,8 @@ No Terraform. salis.id is registered at Hostinger, but its nameservers are Verce
 3. **Vercel project:** import `salismt/jastip`, framework Next.js. Every push to `main` deploys to production.
 4. **Domain:** add `jastip.salis.id` to the Vercel project. Vercel DNS creates the record and the certificate.
 5. **Database connection:** connect the Supabase project to the Vercel project with the Vercel–Supabase integration, which writes `POSTGRES_URL` and the other `POSTGRES_*` and `SUPABASE_*` variables. Nobody copies the database password.
-6. **Midtrans keys:** you add the three `MIDTRANS_*` variables in Vercel → Settings → Environment Variables, from the salis-property sandbox account.
-7. **Midtrans dashboard (sandbox):** in the salis-property sandbox account, set the payment notification URL to `https://jastip.salis.id/api/midtrans/notification`.
+6. **Midtrans keys:** human will add the three `MIDTRANS_*` variables in Vercel → Settings → Environment Variables
+7. **Midtrans dashboard:** in the salis-property production account, set the payment notification URL to `https://jastip.salis.id/api/midtrans/notification`.
 
 Make sure that `curl -I https://jastip.salis.id` returns 200 from the placeholder page before the recording day.
 
@@ -129,13 +106,3 @@ Make sure that `curl -I https://jastip.salis.id` returns 200 from the placeholde
 - Journeys (Playwright, fake `lib/midtrans.ts`): AC-01 to AC-08.
 - The fake signs notifications with a test key, so AC-04, AC-06 and AC-08 run offline.
 - `npm test` runs both. The pace checks C1 and C2 call `npm test -- <file>`.
-
-## Alternatives considered
-
-- **Core API with a custom QRIS screen:** more code and more screens, and the demo is about the promise, not the UI. Snap is shorter.
-- **Cloud Run and Cloud SQL in the salis-property GCP project:** it needs a Terraform change to the shared load balancer and a new certificate, which takes about a day. Vercel and Supabase take minutes, and git push becomes the deploy.
-- **Firestore in place of Postgres:** the row lock in `settle` is simpler in SQL.
-
-## Open questions
-
-None open. Decided 19 Nov: jastip uses the salis-property sandbox account and its notification URL; the repo is `salismt/jastip`, public.

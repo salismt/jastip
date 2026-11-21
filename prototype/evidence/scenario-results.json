@@ -1,0 +1,121 @@
+{
+  "prd_id": "PRD-JT-01",
+  "prototype_version": "4ef218c",
+  "run_started_at": "2026-11-21T00:23:37.643Z",
+  "runner": {
+    "name": "playwright",
+    "version": "1.56.1"
+  },
+  "results": [
+    {
+      "id": "AC-01",
+      "status": "passed",
+      "entry_screen": "S1",
+      "visited_screens": [
+        "S1"
+      ],
+      "recording": "evidence/AC-01/trace.zip",
+      "screenshots": [
+        "evidence/AC-01/AC-01-S1.png"
+      ]
+    },
+    {
+      "id": "AC-02",
+      "status": "passed",
+      "entry_screen": "S1",
+      "visited_screens": [
+        "S1",
+        "S2"
+      ],
+      "recording": "evidence/AC-02/trace.zip",
+      "screenshots": [
+        "evidence/AC-02/AC-02-S1.png",
+        "evidence/AC-02/AC-02-S2.png",
+        "evidence/AC-02/AC-02-S2-2.png"
+      ]
+    },
+    {
+      "id": "AC-03",
+      "status": "passed",
+      "entry_screen": "S2",
+      "visited_screens": [
+        "S2"
+      ],
+      "recording": "evidence/AC-03/trace.zip",
+      "screenshots": [
+        "evidence/AC-03/AC-03-S2.png",
+        "evidence/AC-03/AC-03-S2-2.png"
+      ]
+    },
+    {
+      "id": "AC-04",
+      "status": "passed",
+      "entry_screen": "S3",
+      "visited_screens": [
+        "S3",
+        "S1"
+      ],
+      "recording": "evidence/AC-04/trace.zip",
+      "screenshots": [
+        "evidence/AC-04/AC-04-S3.png",
+        "evidence/AC-04/AC-04-S3-2.png",
+        "evidence/AC-04/AC-04-S1.png"
+      ]
+    },
+    {
+      "id": "AC-05",
+      "status": "passed",
+      "entry_screen": "S3",
+      "visited_screens": [
+        "S3"
+      ],
+      "recording": "evidence/AC-05/trace.zip",
+      "screenshots": [
+        "evidence/AC-05/AC-05-S3.png"
+      ]
+    },
+    {
+      "id": "AC-06",
+      "status": "passed",
+      "entry_screen": "S3",
+      "visited_screens": [
+        "S3",
+        "S1"
+      ],
+      "recording": "evidence/AC-06/trace.zip",
+      "screenshots": [
+        "evidence/AC-06/AC-06-S3.png",
+        "evidence/AC-06/AC-06-S1.png"
+      ]
+    },
+    {
+      "id": "AC-07",
+      "status": "passed",
+      "entry_screen": "S1",
+      "visited_screens": [
+        "S1",
+        "S2"
+      ],
+      "recording": "evidence/AC-07/trace.zip",
+      "screenshots": [
+        "evidence/AC-07/AC-07-S1.png",
+        "evidence/AC-07/AC-07-S2.png"
+      ]
+    },
+    {
+      "id": "AC-08",
+      "status": "passed",
+      "entry_screen": "S3",
+      "visited_screens": [
+        "S3"
+      ],
+      "recording": "evidence/AC-08/trace.zip",
+      "screenshots": [
+        "evidence/AC-08/AC-08-S3.png"
+      ]
+    }
+  ],
+  "review": {
+    "status": "pending"
+  }
+}

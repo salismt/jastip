@@ -1,0 +1,15 @@
+{
+  "prd_id": "PRD-JT-01",
+  "entry_screens": ["S1", "S2", "S3"],
+  "screens": ["S1", "S2", "S3"],
+  "acceptance": [
+    { "id": "AC-01", "screens": ["S1"] },
+    { "id": "AC-02", "screens": ["S1", "S2"] },
+    { "id": "AC-03", "screens": ["S2"] },
+    { "id": "AC-04", "screens": ["S3", "S1"] },
+    { "id": "AC-05", "screens": ["S3"] },
+    { "id": "AC-06", "screens": ["S3", "S1"] },
+    { "id": "AC-07", "screens": ["S1", "S2"] },
+    { "id": "AC-08", "screens": ["S3"] }
+  ]
+}

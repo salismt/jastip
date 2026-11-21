@@ -1,0 +1,78 @@
+{
+  "prd_id": "PRD-JT-01",
+  "prototype_version": "4ef218c",
+  "run_started_at": "2026-11-20T23:49:48.715Z",
+  "runner": {
+    "name": "playwright",
+    "version": "1.56.1"
+  },
+  "results": [
+    {
+      "id": "AC-01",
+      "status": "failed",
+      "entry_screen": null,
+      "visited_screens": [],
+      "recording": "evidence/AC-01/trace.zip",
+      "screenshots": []
+    },
+    {
+      "id": "AC-02",
+      "status": "failed",
+      "entry_screen": null,
+      "visited_screens": [],
+      "recording": "evidence/AC-02/trace.zip",
+      "screenshots": []
+    },
+    {
+      "id": "AC-03",
+      "status": "failed",
+      "entry_screen": null,
+      "visited_screens": [],
+      "recording": "evidence/AC-03/trace.zip",
+      "screenshots": []
+    },
+    {
+      "id": "AC-04",
+      "status": "timedOut",
+      "entry_screen": null,
+      "visited_screens": [],
+      "recording": "evidence/AC-04/trace.zip",
+      "screenshots": []
+    },
+    {
+      "id": "AC-05",
+      "status": "timedOut",
+      "entry_screen": null,
+      "visited_screens": [],
+      "recording": "evidence/AC-05/trace.zip",
+      "screenshots": []
+    },
+    {
+      "id": "AC-06",
+      "status": "timedOut",
+      "entry_screen": null,
+      "visited_screens": [],
+      "recording": "evidence/AC-06/trace.zip",
+      "screenshots": []
+    },
+    {
+      "id": "AC-07",
+      "status": "failed",
+      "entry_screen": null,
+      "visited_screens": [],
+      "recording": "evidence/AC-07/trace.zip",
+      "screenshots": []
+    },
+    {
+      "id": "AC-08",
+      "status": "timedOut",
+      "entry_screen": null,
+      "visited_screens": [],
+      "recording": "evidence/AC-08/trace.zip",
+      "screenshots": []
+    }
+  ],
+  "review": {
+    "status": "pending"
+  }
+}
